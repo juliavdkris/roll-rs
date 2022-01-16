@@ -1,5 +1,6 @@
 use rand::Rng;
 
+#[derive(PartialEq, Debug)]
 pub struct Die {
 	pub sides: u8,
 }
