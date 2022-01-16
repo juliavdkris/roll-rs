@@ -10,10 +10,11 @@ use crate::roll::Die;
 /// ```
 pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	let re = Regex::new(
-		r"(?x)
+		r"^(?x)
 		(?P<rolls>\d*)
 		d
 		(?P<sides>\d+)
+		$
 	",
 	)?;
 	let caps = re.captures(text).ok_or(std::fmt::Error)?;
@@ -44,5 +45,17 @@ mod test {
 	fn set_multiple_2d6() {
 		let expected = vec![Die::new(6), Die::new(6)];
 		assert_eq!(expected, set("2d6").unwrap());
+	}
+
+	#[test]
+	fn set_invalid() {
+		let result = set("fuckyou");
+		assert!(result.is_err());
+	}
+
+	#[test]
+	fn set_invalid_contains_valid() {
+		let result = set("fuckyou1d6nahm8");
+		assert!(result.is_err());
 	}
 }

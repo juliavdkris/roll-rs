@@ -42,12 +42,10 @@ workflows:
   rust:
     jobs:
       - build
-      - test:
-          requires:
-            - build
-      - format:
-          requires:
-            - build
+      - format
       - clippy:
+          requires:
+            - build
+      - test:
           requires:
             - build
