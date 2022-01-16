@@ -8,7 +8,7 @@ use crate::roll::Die;
 /// ```
 /// let dice = roll("2d6")?;
 /// ```
-pub fn set(text: &str) -> Result<Die, Box<dyn std::error::Error>> {
+pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	let re = Regex::new(
 		r"(?x)
 		(?P<rolls>\d*)
@@ -17,7 +17,8 @@ pub fn set(text: &str) -> Result<Die, Box<dyn std::error::Error>> {
 	",
 	)?;
 	let caps = re.captures(text).ok_or(std::fmt::Error)?;
-	let sides = caps["rolls"].parse::<u8>()?;
+	let rolls = caps["rolls"].parse::<u8>()?;
+	let sides = caps["sides"].parse::<u8>()?;
 
-	Ok(Die::new(sides))
+	Ok((0..rolls).map(|_| Die::new(sides)).collect())
 }

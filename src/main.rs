@@ -3,8 +3,10 @@ mod roll;
 
 fn main() {
 	let input = String::from("3d8");
-	let roll = parse::set(&input).unwrap();
-	let result = roll.roll().result;
+	let dice = parse::set(&input).unwrap();
 
-	println!("Sides: {}, Result: {}", roll.sides, result);
+	for die in dice {
+		let result = die.roll().result;
+		println!("Sides: {}, Result: {}", die.sides, result);
+	}
 }
