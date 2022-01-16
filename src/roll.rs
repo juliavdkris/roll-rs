@@ -1,13 +1,12 @@
 use rand::Rng;
 
-
 pub struct DiceRoll {
-	pub sides: u8
+	pub sides: u8,
 }
 
 pub struct DiceRollResult<'a> {
 	pub roll: &'a DiceRoll,
-	pub result: u8
+	pub result: u8,
 }
 
 impl DiceRoll {

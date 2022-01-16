@@ -1,7 +1,6 @@
 mod parse;
 mod roll;
 
-
 fn main() {
 	let input = String::from("3d8");
 	let roll = parse::singular_roll(&input).unwrap();
