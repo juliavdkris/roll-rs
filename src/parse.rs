@@ -1,8 +1,14 @@
 use regex::Regex;
 
-use crate::roll::DiceRoll;
+use crate::roll::Die;
 
-pub fn singular_roll(text: &str) -> Result<DiceRoll, Box<dyn std::error::Error>> {
+/// Parse a single set of rolls, and return a list of (unrolled) dice.
+///
+/// # Example
+/// ```
+/// let dice = roll("2d6")?;
+/// ```
+pub fn set(text: &str) -> Result<Die, Box<dyn std::error::Error>> {
 	let re = Regex::new(
 		r"(?x)
 		(?P<rolls>\d*)
@@ -13,5 +19,5 @@ pub fn singular_roll(text: &str) -> Result<DiceRoll, Box<dyn std::error::Error>>
 	let caps = re.captures(text).ok_or(std::fmt::Error)?;
 	let sides = caps["rolls"].parse::<u8>()?;
 
-	Ok(DiceRoll::new(sides))
+	Ok(Die::new(sides))
 }
