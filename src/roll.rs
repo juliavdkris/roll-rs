@@ -1,5 +1,7 @@
-use owo_colors::{OwoColorize, Rgb};
 use rand::Rng;
+
+use crate::misc;
+
 
 #[derive(PartialEq, Debug)]
 pub struct Die {
@@ -10,6 +12,7 @@ pub struct DieRoll<'a> {
 	pub die: &'a Die,
 	pub result: u32
 }
+
 
 impl Die {
 	pub fn new(sides: u32) -> Self {
@@ -25,10 +28,6 @@ impl Die {
 
 impl<'a> DieRoll<'a> {
 	pub fn pretty_result(&self) -> String {
-		let interpolation = ((self.result as f32) / (self.die.sides as f32) * 256.) as u8;
-		let red = 255 - interpolation;
-		let green = interpolation;
-		let color = Rgb(red, green, 0);
-		self.result.color(color).to_string()
+		misc::interpolate_result_color(self.result, self.die.sides)
 	}
 }

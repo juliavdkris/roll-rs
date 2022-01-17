@@ -3,6 +3,7 @@ use regex::Regex;
 
 use crate::roll::Die;
 
+
 /// Parse a single set of rolls, and return a list of (unrolled) dice.
 ///
 /// # Example
@@ -25,6 +26,7 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	Ok((0..rolls).map(|_| Die::new(sides)).collect())
 }
 
+
 /// Parse multiple sets of rolls, and return a list of (unrolled) dice.
 ///
 /// # Example
@@ -34,6 +36,7 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 pub fn multiple_sets(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	text.split(" + ").map(set).flatten_ok().collect::<Result<Vec<_>, _>>()
 }
+
 
 // Unit tests
 #[cfg(test)]

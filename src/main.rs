@@ -1,7 +1,9 @@
 use std::env;
 
+mod misc;
 mod parse;
 mod roll;
+
 
 fn main() {
 	let args: Vec<String> = env::args().collect();
@@ -15,5 +17,6 @@ fn main() {
 	}
 
 	let sum: u32 = rolls.iter().map(|r| r.result).sum();
-	println!("Sum: {}", sum);
+	let max_sum: u32 = rolls.iter().map(|r| r.die.sides).sum();
+	println!("Sum: {}", misc::interpolate_result_color(sum, max_sum));
 }
