@@ -3,6 +3,8 @@ use rand::Rng;
 use crate::misc;
 
 
+// TODO: implement ConstantDie
+
 #[derive(PartialEq, Debug)]
 pub struct Die {
 	pub sides: u32

@@ -1,16 +1,18 @@
+use std::vec;
+
 use itertools::Itertools;
 use regex::Regex;
 
 use crate::roll::Die;
 
 
-/// Parse a single set of rolls, and return a list of (unrolled) dice.
+/// Parse a single set of random rolls, and return a list of (unrolled) dice.
 ///
 /// # Example
 /// ```
 /// let dice: Vec<Die> = set("2d6")?;
 /// ```
-pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
+fn set_dice(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	let re = Regex::new(
 		r"^(?x)
 		(?P<rolls>\d*)
@@ -27,6 +29,16 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 }
 
 
+pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
+	let constant = text.parse::<u32>();
+	match constant {
+		// TODO: implement ConstantDie
+		Ok(c) => Ok(vec![Die::new(c)]),
+		Err(_) => set_dice(text)
+	}
+}
+
+
 /// Parse multiple sets of rolls, and return a list of (unrolled) dice.
 ///
 /// # Example
@@ -34,7 +46,7 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 /// let dice: Vec<Die> = multiple_sets("2d6 + 3d8")?;
 /// ```
 pub fn multiple_sets(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
-	text.split(" + ").map(set).flatten_ok().collect::<Result<Vec<_>, _>>()
+	text.split('+').map(str::trim).map(set).flatten_ok().collect::<Result<Vec<_>, _>>()
 }
 
 
