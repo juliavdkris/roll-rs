@@ -70,4 +70,11 @@ mod test {
 		let result = set("fuckyou1d6nahm8");
 		assert!(result.is_err());
 	}
+
+	#[test]
+	fn multiple_sets() {
+		let expected = vec![Die::new(6), Die::new(6), Die::new(8), Die::new(8), Die::new(8)];
+		let result = super::multiple_sets("2d6 + 3d8").unwrap();
+		assert_eq!(expected, result);
+	}
 }
