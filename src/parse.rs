@@ -18,8 +18,8 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	",
 	)?;
 	let caps = re.captures(text).ok_or(std::fmt::Error)?;
-	let rolls = caps["rolls"].parse::<u8>().unwrap_or(1);
-	let sides = caps["sides"].parse::<u8>()?;
+	let rolls = caps["rolls"].parse::<u32>().unwrap_or(1);
+	let sides = caps["sides"].parse::<u32>()?;
 
 	Ok((0..rolls).map(|_| Die::new(sides)).collect())
 }
