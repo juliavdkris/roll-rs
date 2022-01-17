@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use regex::Regex;
 
 use crate::roll::Die;
@@ -31,9 +32,10 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 /// let dice: Vec<Die> = multiple_sets("2d6 + 3d8")?;
 /// ```
 pub fn multiple_sets(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
-	let rolls = text.split(" + ").map(set).collect::<Result<Vec<Vec<Die>>, _>>()?;
-	let flattened = rolls.into_iter().flatten().collect::<Vec<Die>>();
-	Ok(flattened)
+	text.split(" + ")
+		.map(set)
+		.flatten_ok()
+		.collect::<Result<Vec<_>, _>>()
 }
 
 // Unit tests
