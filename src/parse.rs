@@ -6,7 +6,7 @@ use crate::roll::Die;
 ///
 /// # Example
 /// ```
-/// let dice: Vec<Roll> = roll("2d6")?;
+/// let dice: Vec<Die> = set("2d6")?;
 /// ```
 pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	let re = Regex::new(
@@ -22,6 +22,18 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 	let sides = caps["sides"].parse::<u8>()?;
 
 	Ok((0..rolls).map(|_| Die::new(sides)).collect())
+}
+
+/// Parse multiple sets of rolls, and return a list of (unrolled) dice.
+///
+/// # Example
+/// ```
+/// let dice: Vec<Die> = multiple_sets("2d6 + 3d8")?;
+/// ```
+pub fn multiple_sets(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
+	let rolls = text.split(" + ").map(set).collect::<Result<Vec<Vec<Die>>, _>>()?;
+	let flattened = rolls.into_iter().flatten().collect::<Vec<Die>>();
+	Ok(flattened)
 }
 
 // Unit tests
