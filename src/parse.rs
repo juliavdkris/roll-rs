@@ -16,7 +16,7 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 		d
 		(?P<sides>\d+)
 		$
-	",
+	"
 	)?;
 	let caps = re.captures(text).ok_or(std::fmt::Error)?;
 	let rolls = caps["rolls"].parse::<u32>().unwrap_or(1);
@@ -32,10 +32,7 @@ pub fn set(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
 /// let dice: Vec<Die> = multiple_sets("2d6 + 3d8")?;
 /// ```
 pub fn multiple_sets(text: &str) -> Result<Vec<Die>, Box<dyn std::error::Error>> {
-	text.split(" + ")
-		.map(set)
-		.flatten_ok()
-		.collect::<Result<Vec<_>, _>>()
+	text.split(" + ").map(set).flatten_ok().collect::<Result<Vec<_>, _>>()
 }
 
 // Unit tests

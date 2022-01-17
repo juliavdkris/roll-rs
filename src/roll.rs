@@ -3,12 +3,12 @@ use rand::Rng;
 
 #[derive(PartialEq, Debug)]
 pub struct Die {
-	pub sides: u32,
+	pub sides: u32
 }
 
 pub struct DieRoll<'a> {
 	pub die: &'a Die,
-	pub result: u32,
+	pub result: u32
 }
 
 impl Die {
