@@ -10,7 +10,7 @@ fn main() {
 	let input = &args[1];
 
 	let dice = parse::multiple_sets(input).unwrap();
-	let rolls = &dice.iter().map(|d| d.roll()).collect::<Vec<roll::DieRoll>>();
+	let rolls = &dice.iter().map(roll::Die::roll).collect::<Vec<roll::DieRoll>>();
 
 	for roll in rolls {
 		println!("Sides: {}, Result: {}", roll.die.sides, roll.pretty_result());
