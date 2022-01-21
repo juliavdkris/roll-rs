@@ -1,6 +1,6 @@
+use super::DieRoll;
 use rand::Rng;
 
-use super::DieRoll;
 
 pub struct RandomDie {
 	sides: u32
