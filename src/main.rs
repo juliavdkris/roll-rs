@@ -1,12 +1,12 @@
-use std::env;
+// use std::env;
 
 mod dice;
 mod misc;
 
 
 fn main() {
-	let args: Vec<String> = env::args().collect();
-	let input = &args.get(1);
+	// let args: Vec<String> = env::args().collect();
+	// let input = &args.get(1);
 
 	let dice = vec![
 		dice::RandomDie::new(6),
@@ -19,6 +19,6 @@ fn main() {
 	let rolls = dice.into_iter().map(dice::Die::roll);
 
 	for r in rolls {
-		r.fancy_result();
+		println!("{} / {}", r.fancy_result(), r.max_result());
 	}
 }

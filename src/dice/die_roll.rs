@@ -1,4 +1,6 @@
 use super::Die;
+use crate::misc;
+
 
 pub struct DieRoll<T: Die> {
 	die: T,
@@ -11,7 +13,11 @@ impl<T: Die> DieRoll<T> {
 		Self { die, result }
 	}
 
-	pub fn fancy_result(&self) {
-		println!("{}", self.result);
+	pub fn fancy_result(&self) -> String {
+		misc::interpolate_result_color(self.result, self.die.max_result())
+	}
+
+	pub fn max_result(&self) -> u32 {
+		self.die.max_result()
 	}
 }

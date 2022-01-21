@@ -13,11 +13,15 @@ impl super::Die for RandomDie {
 		let result = rng.gen_range(1..=self.sides);
 		DieRoll::new(self, result)
 	}
+
+	fn max_result(&self) -> u32 {
+		self.sides
+	}
 }
 
 
 impl RandomDie {
-    pub fn new(sides: u32) -> Self {
-        Self { sides }
-    }
+	pub fn new(sides: u32) -> Self {
+		Self { sides }
+	}
 }
