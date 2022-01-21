@@ -1,22 +1,24 @@
 use std::env;
 
+mod dice;
 mod misc;
-mod parse;
-mod roll;
 
 
 fn main() {
 	let args: Vec<String> = env::args().collect();
-	let input = &args[1];
+	let input = &args.get(1);
 
-	let dice = parse::multiple_sets(input).unwrap();
-	let rolls = &dice.iter().map(roll::Die::roll).collect::<Vec<roll::DieRoll>>();
+	let dice = vec![
+		dice::RandomDie::new(6),
+		dice::RandomDie::new(6),
+		dice::RandomDie::new(8),
+		dice::RandomDie::new(8),
+		dice::RandomDie::new(8),
+	];
 
-	for roll in rolls {
-		println!("Sides: {}, Result: {}", roll.die.sides, roll.pretty_result());
+	let rolls = dice.into_iter().map(dice::Die::roll);
+
+	for r in rolls {
+		r.fancy_result();
 	}
-
-	let sum: u32 = rolls.iter().map(|r| r.result).sum();
-	let max_sum: u32 = rolls.iter().map(|r| r.die.sides).sum();
-	println!("Sum: {}", misc::interpolate_result_color(sum, max_sum));
 }
